@@ -3,19 +3,22 @@ package com.example.swordapp.view
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.example.swordapp.databinding.ActivityAddUserBinding
 import com.example.swordapp.model.Employee
-import com.example.swordapp.repository.UserRepository
+import com.example.swordapp.viewmodel.MainViewModel
 
 class AddUserActivity : AppCompatActivity() {
 
     var employee: Employee? = null
+    lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //setContentView(R.layout.activity_add_user)
         val binding = ActivityAddUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
         employee = intent.getParcelableExtra("employee")
 
@@ -27,8 +30,6 @@ class AddUserActivity : AppCompatActivity() {
 
         }
 
-        val repo = UserRepository(this)
-
         binding.btnSaveUser.setOnClickListener {
 
             if (binding.etUsername.text.isNotEmpty() && binding.etEmail.text.isNotEmpty() && binding.etLocation.text.isNotEmpty()) {
@@ -39,14 +40,14 @@ class AddUserActivity : AppCompatActivity() {
                         location = binding.etLocation.text.toString(),
                         email = binding.etEmail.text.toString()
                     )
-                    repo.updateUser(user)
+                    viewModel.updateUser(user)
                 } ?: kotlin.run {
                     val user = Employee(
                         userName = binding.etUsername.text.toString(),
                         location = binding.etLocation.text.toString(),
                         email = binding.etEmail.text.toString()
                     )
-                    repo.insertUser(user)
+                    viewModel.insertUser(user)
                 }
 
             } else {
@@ -55,5 +56,4 @@ class AddUserActivity : AppCompatActivity() {
             finish()
         }
     }
-
 }

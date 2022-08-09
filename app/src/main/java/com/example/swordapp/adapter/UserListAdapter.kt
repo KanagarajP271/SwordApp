@@ -12,12 +12,12 @@ import com.example.swordapp.model.Employee
 
 class UserListAdapter : RecyclerView.Adapter<MyViewHolder>() {
 
-    var userList = mutableListOf<Employee>()
+    var employeeList = mutableListOf<Employee>()
 
     var clickListener: ListClickListener<Employee>? = null
 
-    fun setUsers(users: List<Employee>) {
-        this.userList = users.toMutableList()
+    fun setEmployees(employees: List<Employee>) {
+        this.employeeList = employees.toMutableList()
         notifyDataSetChanged()
     }
 
@@ -27,21 +27,21 @@ class UserListAdapter : RecyclerView.Adapter<MyViewHolder>() {
     }
 
     override fun getItemCount(): Int {
-        return userList.size
+        return employeeList.size
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-        val user = userList[position]
-        holder.tvLocation.text = user.location
-        holder.tvUsername.text = user.userName
-        holder.tvEmail.text = user.email
+        val employee = employeeList[position]
+        holder.tvLocation.text = employee.location
+        holder.tvUsername.text = employee.userName
+        holder.tvEmail.text = employee.email
         holder.layout.setOnClickListener {
-            clickListener?.onClick(user,position)
+            clickListener?.onClick(employee,position)
         }
 
         holder.imgDelete.setOnClickListener {
-            clickListener?.onDelete(user)
+            clickListener?.onDelete(employee)
         }
 
     }
@@ -63,6 +63,6 @@ class MyViewHolder(view: View): RecyclerView.ViewHolder(view) {
 
 
 interface ListClickListener<T> {
-    fun onClick(data: T, position: Int)
-    fun onDelete(user: T)
+    fun onClick(data: Employee, position: Int)
+    fun onDelete(user: Employee)
 }

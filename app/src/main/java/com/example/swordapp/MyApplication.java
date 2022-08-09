@@ -12,14 +12,12 @@ public class MyApplication extends Application {
     }
 
     public static Context getContext() {
-        //  return instance.getApplicationContext();
-        return mContext;
+        return instance;
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        //  instance = this;
-        mContext = getApplicationContext();
+        instance = this;
     }
 }
